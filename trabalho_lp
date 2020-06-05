@@ -158,9 +158,7 @@ if (soma_total >= 100) {
 
      printf("VALOR DO DESCONTO: %.2f\n\n", desconto);
      printf("VALOR A PAGAR: R$ %.2f\n\n", soma_total);
-
-    
-  
+     
 }
 
 }
