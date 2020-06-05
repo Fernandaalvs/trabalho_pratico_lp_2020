@@ -1,0 +1,166 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
+
+int main(void) {
+printf("Fernanda Alves Silva\n");
+printf("fernanda.fas55@gmail.com\n\n");
+
+setlocale(LC_ALL,"");
+
+    int num_categ = 1;
+    int num_itens_categ[99];
+    int cont_itens = 1;
+    int t_itens = 0;
+    int num_parcelas = 0;
+    char nome_categ[99][25];
+    char descr_itens[99][15];
+    char uni_med[99][5];
+    char pagamento;//Tipo de pagamento 
+    double R$[99]; //Valor unitário 
+    double qtd[99];
+    double total_valor_categ[99];//Armazena o valor dos itens em R$
+    double soma_total_sem_desc = 0;// Valor sem desconto
+    double valor_parcela = 0; 
+    double soma_total = 0;// Valor com desconto
+    double desconto = 0;
+    double percent_desc = 0;
+
+    printf("(OBS: Caso existam nomes compostos por mais de uma palavra, separe por \"-\").\n\n");
+    printf("Digite a quantidade de categorias de compras:\n");
+    scanf("%d", &num_categ);
+
+ 
+    //Atribuição de valores
+    for (int cont = 1; cont <= num_categ; cont++) {
+        printf("\nDigite o nome da categoria:\n");
+        scanf("%s", nome_categ[cont]);
+        printf("\nDigite a quantidade de itens da categoria:\n");
+        scanf("%d", &num_itens_categ[cont]);
+      
+    //Descrição da categoria e componentes
+     for (int b = 1; b <= num_itens_categ[cont]; b++) {
+            printf("\nDescreva os itens:\n -");
+            scanf("%s", descr_itens[cont_itens]);
+
+            printf("\nDigite o valor dos itens:\n");
+            scanf("%lf", &R$[cont_itens]);
+            printf("\nDigite a quantidade de itens:\n");
+            scanf("%lf", &qtd[cont_itens]);
+            printf("\nDigite a unidade de medida: KG (quilo), UN (unidade), PC (pacote), PCT (pacote)\n");
+            scanf("%s", uni_med[cont_itens]);
+
+            cont_itens = cont_itens + 1;
+            t_itens = t_itens + 1;
+            
+        } 
+    } 
+    printf("\nDigite o valor do desconto:\n");//Valor do percentual do desconto
+            scanf("%lf", &percent_desc);
+    cont_itens = 1;
+
+
+    printf("\n");
+    
+
+    //Apresentação dos valores atribuídos
+    for (int cont = 1 ; cont <= num_categ; cont++){
+        printf("%s\n", nome_categ[cont]);
+     for (int a = 1; a <= num_itens_categ[cont]; a++) {
+            printf(" -%s R$ %.2f  (%.1f %s)\n", descr_itens[cont_itens], R$[cont_itens] * qtd[cont_itens], qtd[cont_itens], uni_med[cont_itens]);
+
+            total_valor_categ[cont] = total_valor_categ[cont] + R$[cont_itens] * qtd[cont_itens];
+
+            cont_itens = cont_itens + 1;
+        }
+
+            soma_total_sem_desc = soma_total_sem_desc + total_valor_categ[cont];
+
+            desconto = soma_total_sem_desc -(soma_total_sem_desc/100 * percent_desc);
+            desconto = soma_total_sem_desc - desconto;
+
+            soma_total = soma_total_sem_desc - desconto;
+
+
+    printf("  TOTAL %s: R$ %.2f\n", nome_categ[cont], total_valor_categ[cont]);
+
+    
+  printf("\n");
+
+
+    }
+
+
+    cont_itens = 1;
+    printf("TOTAL DE ITENS: %d\n\n", t_itens);
+
+    printf("VALOR TOTAL: R$ %.2f\n\n", soma_total_sem_desc);
+
+    printf("DESCONTO: %.2f%\n\n", percent_desc);
+
+    printf("VALOR DO DESCONTO: R$ %.2f\n\n", desconto);
+    printf("VALOR A PAGAR: R$ %.2f\n\n", soma_total);
+
+
+if (soma_total >= 100) {
+
+  printf("TIPO DE PAGAMENTO A (À VISTA) OU P (PARCELADO)?\n");
+  scanf("%s", &pagamento);
+
+    if (pagamento == 'P') {
+
+    num_parcelas = soma_total/50;
+
+    printf("\nQuantas parcelas deseja (máximo de %d)?: \n", num_parcelas);
+    scanf("%d", &num_parcelas);
+        
+    valor_parcela = soma_total/num_parcelas;
+
+ for (int cont = 1; cont <= num_categ; cont++){
+        printf("\n\n%s\n", nome_categ[cont]);
+     for (int a = 1; a <= num_itens_categ[cont]; a++) {
+            printf(" -%s R$ %.2f  (%.1f %s)\n", descr_itens[cont_itens], R$[cont_itens] * qtd[cont_itens], qtd[cont_itens], uni_med[cont_itens]);
+            cont_itens = cont_itens + 1;
+        }
+
+    printf("  TOTAL %s: R$ %.2f\n\n", nome_categ[cont], total_valor_categ[cont]);
+
+ }
+  
+     printf("TOTAL DE ITENS: %d\n\n", t_itens);
+
+     printf("VALOR TOTAL: R$ %.2f\n\n", soma_total_sem_desc);
+
+     printf("DESCONTO: %.2f%\n\n", percent_desc);
+
+     printf("VALOR DO DESCONTO: R$ %.2f\n\n", desconto);
+     printf("VALOR A PAGAR: R$ %.2f\n\n", soma_total);
+
+     printf("VALOR DA PARCELA: R$ %.2f\n\n", valor_parcela);
+
+    }
+    cont_itens = 1;
+       } else if (pagamento == 'A') {
+
+  for (int cont = 1 ; cont <= num_categ; cont++){
+        printf("%s\n", nome_categ[cont]);
+     for (int a = 1; a <= num_itens_categ[cont]; a++) {
+            printf(" -%s R$ %.2f  (%.1f %s)\n", descr_itens[cont_itens], R$[cont_itens] * qtd[cont_itens], qtd[cont_itens], uni_med[cont_itens]); 
+            cont_itens = cont_itens + 1;
+     }
+    printf("TOTAL %s: R$ %.2f\n", nome_categ[cont], total_valor_categ[cont]);
+   }
+    printf("TOTAL DE ITENS: %d\n\n", t_itens);
+
+     printf("VALOR TOTAL: R$ %.2f%\n\n", soma_total_sem_desc);
+
+     printf("DESCONTO: %.2f%\n\n", percent_desc);
+
+     printf("VALOR DO DESCONTO: %.2f\n\n", desconto);
+     printf("VALOR A PAGAR: R$ %.2f\n\n", soma_total);
+
+    
+  
+}
+
+}
